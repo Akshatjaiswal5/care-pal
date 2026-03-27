@@ -34,9 +34,10 @@ const tabs = [
 export default function BottomNav() {
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 bg-slate-800/95 backdrop-blur border-t border-slate-600"
+      className="fixed bottom-0 left-0 right-0 md:max-w-sm md:left-1/2 md:-translate-x-1/2 bg-white/90 backdrop-blur border-t border-gray-200"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="flex justify-around items-center h-16" style={{ marginBottom: 'env(safe-area-inset-bottom)' }}>
+      <div className="flex justify-around items-center h-16">
         {tabs.map((tab) => (
           <NavLink
             key={tab.to}
@@ -44,7 +45,7 @@ export default function BottomNav() {
             end
             className={({ isActive }) =>
               `flex flex-col items-center gap-0.5 px-6 py-2 transition-colors ${
-                isActive ? 'text-green-400' : 'text-slate-500'
+                isActive ? 'text-green-500' : 'text-gray-400'
               }`
             }
           >

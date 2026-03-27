@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react'
 import { getModules, createModule, updateModule, deleteModule, getTasks, createTask, updateTask, deleteTask } from '../lib/db'
 
 const MODULE_ICONS = ['🧴', '💆', '🦷', '🛁', '💊', '🧘', '💪', '🌿', '✨', '🫧', '🪥', '🌙', '☀️', '💅', '🧖']
-const MODULE_COLORS = ['#4ade80', '#60a5fa', '#f472b6', '#fb923c', '#a78bfa', '#34d399', '#fbbf24', '#f87171']
+const MODULE_COLORS = ['#22c55e', '#3b82f6', '#ec4899', '#f97316', '#a855f7', '#10b981', '#f59e0b', '#ef4444']
 
 const DEFAULT_MODULES = [
-  { name: 'Skincare', icon: '🧴', color: '#f472b6', sort_order: 0 },
-  { name: 'Haircare', icon: '💆', color: '#a78bfa', sort_order: 1 },
-  { name: 'Oral Care', icon: '🦷', color: '#60a5fa', sort_order: 2 },
-  { name: 'Body', icon: '🛁', color: '#34d399', sort_order: 3 },
-  { name: 'Medicines', icon: '💊', color: '#fb923c', sort_order: 4 },
-  { name: 'Mind', icon: '🧘', color: '#4ade80', sort_order: 5 },
+  { name: 'Skincare', icon: '🧴', color: '#ec4899', sort_order: 0 },
+  { name: 'Haircare', icon: '💆', color: '#a855f7', sort_order: 1 },
+  { name: 'Oral Care', icon: '🦷', color: '#3b82f6', sort_order: 2 },
+  { name: 'Body', icon: '🛁', color: '#10b981', sort_order: 3 },
+  { name: 'Medicines', icon: '💊', color: '#f97316', sort_order: 4 },
+  { name: 'Mind', icon: '🧘', color: '#22c55e', sort_order: 5 },
 ]
 
 export default function Manage() {
@@ -23,9 +23,7 @@ export default function Manage() {
   const [editingTask, setEditingTask] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    load()
-  }, [])
+  useEffect(() => { load() }, [])
 
   async function load() {
     const [mods, allTasks] = await Promise.all([getModules(), getTasks()])
@@ -35,18 +33,13 @@ export default function Manage() {
   }
 
   async function handleSeedDefaults() {
-    for (const mod of DEFAULT_MODULES) {
-      await createModule(mod)
-    }
+    for (const mod of DEFAULT_MODULES) await createModule(mod)
     load()
   }
 
   async function handleSaveModule(data) {
-    if (editingModule) {
-      await updateModule(editingModule.id, data)
-    } else {
-      await createModule({ ...data, sort_order: modules.length })
-    }
+    if (editingModule) await updateModule(editingModule.id, data)
+    else await createModule({ ...data, sort_order: modules.length })
     setShowModuleForm(false)
     setEditingModule(null)
     load()
@@ -60,12 +53,8 @@ export default function Manage() {
   }
 
   async function handleSaveTask(data) {
-    if (editingTask) {
-      await updateTask(editingTask.id, data)
-    } else {
-      const count = tasks.filter((t) => t.module_id === activeModule.id).length
-      await createTask({ ...data, module_id: activeModule.id, sort_order: count })
-    }
+    if (editingTask) await updateTask(editingTask.id, data)
+    else await createTask({ ...data, module_id: activeModule.id, sort_order: tasks.filter((t) => t.module_id === activeModule.id).length })
     setShowTaskForm(false)
     setEditingTask(null)
     load()
@@ -82,7 +71,7 @@ export default function Manage() {
   if (loading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-green-400 border-t-transparent animate-spin" />
+        <div className="w-8 h-8 rounded-full border-2 border-green-500 border-t-transparent animate-spin" />
       </div>
     )
   }
@@ -90,36 +79,32 @@ export default function Manage() {
   return (
     <div className="page-content">
       <div className="px-4 pt-14 pb-4">
-        <h1 className="text-2xl font-bold text-slate-100 mb-6">Manage</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">Manage</h1>
 
-        {/* Modules list */}
-        {!activeModule && (
+        {!activeModule && !showModuleForm && (
           <>
             {modules.length === 0 && (
               <div className="text-center py-8 mb-6">
-                <p className="text-slate-400 mb-4">No modules yet.</p>
-                <button onClick={handleSeedDefaults} className="text-green-400 text-sm bg-green-400/10 px-4 py-2 rounded-xl font-medium">
+                <p className="text-gray-400 mb-4">No modules yet.</p>
+                <button onClick={handleSeedDefaults} className="text-green-600 text-sm bg-green-50 px-4 py-2 rounded-xl font-medium">
                   Add default modules
                 </button>
               </div>
             )}
-
             <div className="flex flex-col gap-2 mb-4">
               {modules.map((mod) => (
-                <div key={mod.id} className="flex items-center gap-3 bg-slate-600 rounded-2xl px-4 py-3">
+                <div key={mod.id} className="flex items-center gap-3 bg-white rounded-2xl px-4 py-3 shadow-sm">
                   <button onClick={() => setActiveModule(mod)} className="flex items-center gap-3 flex-1 min-w-0">
                     <span className="text-xl">{mod.icon}</span>
-                    <span className="font-medium text-slate-100 truncate">{mod.name}</span>
-                    <span className="text-xs text-slate-500 ml-auto">
-                      {tasks.filter((t) => t.module_id === mod.id).length} tasks
-                    </span>
+                    <span className="font-medium text-gray-900 truncate">{mod.name}</span>
+                    <span className="text-xs text-gray-400 ml-auto">{tasks.filter((t) => t.module_id === mod.id).length} tasks</span>
                   </button>
-                  <button onClick={() => { setEditingModule(mod); setShowModuleForm(true) }} className="text-slate-500 p-1">
+                  <button onClick={() => { setEditingModule(mod); setShowModuleForm(true) }} className="text-gray-400 p-1">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
                   </button>
-                  <button onClick={() => handleDeleteModule(mod)} className="text-red-400/60 p-1">
+                  <button onClick={() => handleDeleteModule(mod)} className="text-red-400 p-1">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
@@ -127,38 +112,34 @@ export default function Manage() {
                 </div>
               ))}
             </div>
-
             <button
               onClick={() => { setEditingModule(null); setShowModuleForm(true) }}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-dashed border-slate-600 text-slate-400 text-sm font-medium"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-dashed border-gray-300 text-gray-400 text-sm font-medium"
             >
               + Add Module
             </button>
           </>
         )}
 
-        {/* Module detail — tasks */}
         {activeModule && !showTaskForm && (
           <>
-            <button onClick={() => setActiveModule(null)} className="flex items-center gap-1 text-slate-400 text-sm mb-4">
+            <button onClick={() => setActiveModule(null)} className="flex items-center gap-1 text-gray-400 text-sm mb-4">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
               Back
             </button>
-
             <div className="flex items-center gap-2 mb-5">
               <span className="text-2xl">{activeModule.icon}</span>
-              <h2 className="text-lg font-semibold text-slate-100">{activeModule.name}</h2>
+              <h2 className="text-lg font-semibold text-gray-900">{activeModule.name}</h2>
             </div>
-
             <div className="flex flex-col gap-2 mb-4">
               {moduleTasks.map((task) => (
-                <div key={task.id} className="bg-slate-600 rounded-2xl px-4 py-3">
+                <div key={task.id} className="bg-white rounded-2xl px-4 py-3 shadow-sm">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-slate-100">{task.name}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">
+                      <p className="font-medium text-gray-900">{task.name}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">
                         {task.task_type === 'daily'
                           ? `Daily · ${task.slot}`
                           : `Every ${task.interval_days} days${task.next_due_date ? ` · next: ${task.next_due_date}` : ''}`}
@@ -167,15 +148,12 @@ export default function Manage() {
                       </p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
-                      <button
-                        onClick={() => { setEditingTask(task); setShowTaskForm(true) }}
-                        className="text-slate-500 p-1"
-                      >
+                      <button onClick={() => { setEditingTask(task); setShowTaskForm(true) }} className="text-gray-400 p-1">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                       </button>
-                      <button onClick={() => handleDeleteTask(task)} className="text-red-400/60 p-1">
+                      <button onClick={() => handleDeleteTask(task)} className="text-red-400 p-1">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
@@ -185,17 +163,15 @@ export default function Manage() {
                 </div>
               ))}
             </div>
-
             <button
               onClick={() => { setEditingTask(null); setShowTaskForm(true) }}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-dashed border-slate-600 text-slate-400 text-sm font-medium"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-dashed border-gray-300 text-gray-400 text-sm font-medium"
             >
               + Add Task
             </button>
           </>
         )}
 
-        {/* Module form */}
         {showModuleForm && (
           <ModuleForm
             initial={editingModule}
@@ -204,13 +180,11 @@ export default function Manage() {
           />
         )}
 
-        {/* Task form */}
         {showTaskForm && activeModule && (
           <TaskForm
             initial={editingTask}
             onSave={handleSaveTask}
             onCancel={() => { setShowTaskForm(false); setEditingTask(null) }}
-            onBack={() => { setShowTaskForm(false); setEditingTask(null) }}
           />
         )}
       </div>
@@ -225,32 +199,32 @@ function ModuleForm({ initial, onSave, onCancel }) {
 
   return (
     <div>
-      <button onClick={onCancel} className="flex items-center gap-1 text-slate-400 text-sm mb-4">
+      <button onClick={onCancel} className="flex items-center gap-1 text-gray-400 text-sm mb-4">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
         Back
       </button>
-      <h2 className="text-lg font-semibold text-slate-100 mb-5">{initial ? 'Edit Module' : 'New Module'}</h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-5">{initial ? 'Edit Module' : 'New Module'}</h2>
 
       <label className="block mb-4">
-        <span className="text-xs text-slate-400 uppercase tracking-wide">Name</span>
+        <span className="text-xs text-gray-400 uppercase tracking-wide">Name</span>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-1 w-full bg-slate-600 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
+          className="mt-1 w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
           placeholder="e.g. Skincare"
         />
       </label>
 
       <label className="block mb-4">
-        <span className="text-xs text-slate-400 uppercase tracking-wide">Icon</span>
+        <span className="text-xs text-gray-400 uppercase tracking-wide">Icon</span>
         <div className="mt-2 flex flex-wrap gap-2">
           {MODULE_ICONS.map((ic) => (
             <button
               key={ic}
               onClick={() => setIcon(ic)}
-              className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center ${icon === ic ? 'bg-green-400/20 ring-2 ring-green-400' : 'bg-slate-600'}`}
+              className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center ${icon === ic ? 'bg-green-100 ring-2 ring-green-500' : 'bg-white border border-gray-200'}`}
             >
               {ic}
             </button>
@@ -259,13 +233,13 @@ function ModuleForm({ initial, onSave, onCancel }) {
       </label>
 
       <label className="block mb-6">
-        <span className="text-xs text-slate-400 uppercase tracking-wide">Color</span>
+        <span className="text-xs text-gray-400 uppercase tracking-wide">Color</span>
         <div className="mt-2 flex flex-wrap gap-2">
           {MODULE_COLORS.map((c) => (
             <button
               key={c}
               onClick={() => setColor(c)}
-              className={`w-8 h-8 rounded-full ${color === c ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-800' : ''}`}
+              className={`w-8 h-8 rounded-full ${color === c ? 'ring-2 ring-offset-2 ring-gray-400' : ''}`}
               style={{ backgroundColor: c }}
             />
           ))}
@@ -275,7 +249,7 @@ function ModuleForm({ initial, onSave, onCancel }) {
       <button
         onClick={() => onSave({ name, icon, color })}
         disabled={!name.trim()}
-        className="w-full py-3 bg-green-400 text-slate-900 font-semibold rounded-2xl disabled:opacity-40"
+        className="w-full py-3 bg-green-500 text-white font-semibold rounded-2xl disabled:opacity-40"
       >
         Save Module
       </button>
@@ -288,11 +262,11 @@ function TaskForm({ initial, onSave, onCancel }) {
   const [taskType, setTaskType] = useState(initial?.task_type || 'daily')
   const [slot, setSlot] = useState(initial?.slot || 'morning')
   const [intervalDays, setIntervalDays] = useState(initial?.interval_days || 3)
-  const [nextDueDate, setNextDueDate] = useState(initial?.next_due_date || format(new Date(), 'yyyy-MM-dd'))
+  const [nextDueDate, setNextDueDate] = useState(initial?.next_due_date || formatDate(new Date()))
   const [deadlineTime, setDeadlineTime] = useState(initial?.deadline_time || '')
   const [isReschedulable, setIsReschedulable] = useState(initial?.is_reschedulable || false)
 
-  function format(date, fmt) {
+  function formatDate(date) {
     const y = date.getFullYear()
     const m = String(date.getMonth() + 1).padStart(2, '0')
     const d = String(date.getDate()).padStart(2, '0')
@@ -301,33 +275,33 @@ function TaskForm({ initial, onSave, onCancel }) {
 
   return (
     <div>
-      <button onClick={onCancel} className="flex items-center gap-1 text-slate-400 text-sm mb-4">
+      <button onClick={onCancel} className="flex items-center gap-1 text-gray-400 text-sm mb-4">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
         Back
       </button>
-      <h2 className="text-lg font-semibold text-slate-100 mb-5">{initial ? 'Edit Task' : 'New Task'}</h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-5">{initial ? 'Edit Task' : 'New Task'}</h2>
 
       <label className="block mb-4">
-        <span className="text-xs text-slate-400 uppercase tracking-wide">Task Name</span>
+        <span className="text-xs text-gray-400 uppercase tracking-wide">Task Name</span>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-1 w-full bg-slate-600 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
+          className="mt-1 w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
           placeholder="e.g. Apply moisturizer"
         />
       </label>
 
       <label className="block mb-4">
-        <span className="text-xs text-slate-400 uppercase tracking-wide">Type</span>
+        <span className="text-xs text-gray-400 uppercase tracking-wide">Type</span>
         <div className="mt-2 flex gap-2">
           {['daily', 'scheduled'].map((t) => (
             <button
               key={t}
               onClick={() => setTaskType(t)}
               className={`flex-1 py-2.5 rounded-xl text-sm font-medium capitalize ${
-                taskType === t ? 'bg-green-400 text-slate-900' : 'bg-slate-600 text-slate-400'
+                taskType === t ? 'bg-green-500 text-white' : 'bg-white border border-gray-200 text-gray-500'
               }`}
             >
               {t}
@@ -338,14 +312,14 @@ function TaskForm({ initial, onSave, onCancel }) {
 
       {taskType === 'daily' && (
         <label className="block mb-4">
-          <span className="text-xs text-slate-400 uppercase tracking-wide">Time Slot</span>
+          <span className="text-xs text-gray-400 uppercase tracking-wide">Time Slot</span>
           <div className="mt-2 flex gap-2">
             {['morning', 'night', 'both'].map((s) => (
               <button
                 key={s}
                 onClick={() => setSlot(s)}
                 className={`flex-1 py-2.5 rounded-xl text-sm font-medium capitalize ${
-                  slot === s ? 'bg-green-400 text-slate-900' : 'bg-slate-600 text-slate-400'
+                  slot === s ? 'bg-green-500 text-white' : 'bg-white border border-gray-200 text-gray-500'
                 }`}
               >
                 {s}
@@ -358,62 +332,60 @@ function TaskForm({ initial, onSave, onCancel }) {
       {taskType === 'scheduled' && (
         <>
           <label className="block mb-4">
-            <span className="text-xs text-slate-400 uppercase tracking-wide">Repeat every (days)</span>
+            <span className="text-xs text-gray-400 uppercase tracking-wide">Repeat every (days)</span>
             <input
               type="number"
               min="1"
               value={intervalDays}
               onChange={(e) => setIntervalDays(Number(e.target.value))}
-              className="mt-1 w-full bg-slate-600 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
+              className="mt-1 w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
             />
           </label>
 
           <label className="block mb-4">
-            <span className="text-xs text-slate-400 uppercase tracking-wide">First due date</span>
+            <span className="text-xs text-gray-400 uppercase tracking-wide">First due date</span>
             <input
               type="date"
               value={nextDueDate}
               onChange={(e) => setNextDueDate(e.target.value)}
-              className="mt-1 w-full bg-slate-600 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
+              className="mt-1 w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
             />
           </label>
 
           <label className="flex items-center gap-3 mb-4 cursor-pointer">
             <div
               onClick={() => setIsReschedulable(!isReschedulable)}
-              className={`w-11 h-6 rounded-full transition-colors ${isReschedulable ? 'bg-green-400' : 'bg-slate-600'}`}
+              className={`w-11 h-6 rounded-full transition-colors ${isReschedulable ? 'bg-green-500' : 'bg-gray-200'}`}
             >
-              <div className={`w-5 h-5 rounded-full bg-white m-0.5 transition-transform ${isReschedulable ? 'translate-x-5' : ''}`} />
+              <div className={`w-5 h-5 rounded-full bg-white shadow m-0.5 transition-transform ${isReschedulable ? 'translate-x-5' : ''}`} />
             </div>
-            <span className="text-slate-300 text-sm">Reschedulable (can postpone)</span>
+            <span className="text-gray-600 text-sm">Reschedulable (can postpone)</span>
           </label>
         </>
       )}
 
       <label className="block mb-6">
-        <span className="text-xs text-slate-400 uppercase tracking-wide">Deadline time (optional)</span>
+        <span className="text-xs text-gray-400 uppercase tracking-wide">Deadline time (optional)</span>
         <input
           type="time"
           value={deadlineTime}
           onChange={(e) => setDeadlineTime(e.target.value)}
-          className="mt-1 w-full bg-slate-600 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
+          className="mt-1 w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
         />
       </label>
 
       <button
-        onClick={() =>
-          onSave({
-            name,
-            task_type: taskType,
-            slot: taskType === 'daily' ? slot : null,
-            interval_days: taskType === 'scheduled' ? intervalDays : null,
-            next_due_date: taskType === 'scheduled' ? nextDueDate : null,
-            deadline_time: deadlineTime || null,
-            is_reschedulable: taskType === 'scheduled' ? isReschedulable : false,
-          })
-        }
+        onClick={() => onSave({
+          name,
+          task_type: taskType,
+          slot: taskType === 'daily' ? slot : null,
+          interval_days: taskType === 'scheduled' ? intervalDays : null,
+          next_due_date: taskType === 'scheduled' ? nextDueDate : null,
+          deadline_time: deadlineTime || null,
+          is_reschedulable: taskType === 'scheduled' ? isReschedulable : false,
+        })}
         disabled={!name.trim()}
-        className="w-full py-3 bg-green-400 text-slate-900 font-semibold rounded-2xl disabled:opacity-40"
+        className="w-full py-3 bg-green-500 text-white font-semibold rounded-2xl disabled:opacity-40"
       >
         Save Task
       </button>

@@ -10,10 +10,10 @@ export default function ModuleSection({ module, tasks, logs, onDone, onSkip, onP
     <div className="mb-6">
       <div className="flex items-center gap-2 mb-3 px-1">
         <span className="text-lg">{module.icon}</span>
-        <h2 className="font-semibold text-slate-200 text-sm tracking-wide uppercase">
+        <h2 className="font-semibold text-gray-500 text-xs tracking-widest uppercase">
           {module.name}
         </h2>
-        <span className="ml-auto text-xs text-slate-500">
+        <span className="ml-auto text-xs text-gray-400">
           {doneCount}/{tasks.length}
         </span>
       </div>
