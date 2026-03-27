@@ -17,7 +17,7 @@ export default function TaskCard({ task, log, onDone, onSkip, onPostpone }) {
   }
 
   return (
-    <div className={`relative bg-slate-800 rounded-2xl p-4 transition-opacity ${STATUS_STYLES[status]}`}>
+    <div className={`relative bg-slate-600 rounded-2xl p-4 transition-opacity ${STATUS_STYLES[status]}`}>
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 min-w-0">
           <p className={`font-medium truncate ${status === 'done' ? 'line-through text-slate-400' : 'text-slate-100'}`}>
@@ -46,7 +46,7 @@ export default function TaskCard({ task, log, onDone, onSkip, onPostpone }) {
             )}
             <button
               onClick={() => onSkip(task)}
-              className="text-xs text-slate-400 bg-slate-700 px-3 py-1.5 rounded-xl font-medium"
+              className="text-xs text-slate-400 bg-slate-500/50 px-3 py-1.5 rounded-xl font-medium"
             >
               Skip
             </button>
@@ -68,7 +68,7 @@ export default function TaskCard({ task, log, onDone, onSkip, onPostpone }) {
         )}
 
         {status === 'skipped' && (
-          <div className="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-full bg-slate-600 flex items-center justify-center shrink-0">
             <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -78,7 +78,7 @@ export default function TaskCard({ task, log, onDone, onSkip, onPostpone }) {
 
       {/* Postpone picker */}
       {showPostpone && (
-        <div className="mt-3 pt-3 border-t border-slate-700">
+        <div className="mt-3 pt-3 border-t border-slate-600">
           <p className="text-xs text-slate-400 mb-2">Postpone by:</p>
           <div className="flex gap-2 flex-wrap">
             {[
@@ -90,7 +90,7 @@ export default function TaskCard({ task, log, onDone, onSkip, onPostpone }) {
               <button
                 key={opt.days}
                 onClick={() => handlePostpone(opt.days)}
-                className="text-xs bg-slate-700 text-slate-300 px-3 py-1.5 rounded-xl font-medium"
+                className="text-xs bg-slate-600 text-slate-300 px-3 py-1.5 rounded-xl font-medium"
               >
                 {opt.label}
               </button>

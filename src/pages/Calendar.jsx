@@ -66,7 +66,7 @@ export default function Calendar() {
 
         {/* Month navigation */}
         <div className="flex items-center justify-between mb-4">
-          <button onClick={() => setCurrentMonth((m) => subMonths(m, 1))} className="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-800 text-slate-400">
+          <button onClick={() => setCurrentMonth((m) => subMonths(m, 1))} className="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-600 text-slate-400">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
@@ -74,7 +74,7 @@ export default function Calendar() {
           <h2 className="text-base font-semibold text-slate-200">
             {format(currentMonth, 'MMMM yyyy')}
           </h2>
-          <button onClick={() => setCurrentMonth((m) => addMonths(m, 1))} className="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-800 text-slate-400">
+          <button onClick={() => setCurrentMonth((m) => addMonths(m, 1))} className="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-600 text-slate-400">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
@@ -102,7 +102,7 @@ export default function Calendar() {
                 key={day}
                 onClick={() => setSelectedDate(isSelected ? null : day)}
                 className={`aspect-square rounded-xl flex flex-col items-center justify-center text-sm font-medium transition-colors relative
-                  ${isSelected ? 'bg-green-400 text-slate-900' : todayDay ? 'bg-slate-700 text-green-400' : 'text-slate-400'}
+                  ${isSelected ? 'bg-green-400 text-slate-900' : todayDay ? 'bg-slate-600 text-green-400' : 'text-slate-400'}
                 `}
               >
                 {format(day, 'd')}
@@ -125,11 +125,11 @@ export default function Calendar() {
             ) : (
               <div className="flex flex-col gap-2">
                 {selectedTaskDetails.map(({ log, task }) => (
-                  <div key={log.task_id} className="flex items-center justify-between bg-slate-800 rounded-xl px-4 py-3">
+                  <div key={log.task_id} className="flex items-center justify-between bg-slate-600 rounded-xl px-4 py-3">
                     <span className="text-slate-200 text-sm">{task.name}</span>
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-lg ${
                       log.status === 'done' ? 'bg-green-400/15 text-green-400' :
-                      log.status === 'skipped' ? 'bg-slate-700 text-slate-400' :
+                      log.status === 'skipped' ? 'bg-slate-500/40 text-slate-400' :
                       'bg-amber-400/15 text-amber-400'
                     }`}>
                       {log.status}
@@ -147,7 +147,7 @@ export default function Calendar() {
             <h3 className="text-sm font-semibold text-slate-400 mb-3">Upcoming Scheduled</h3>
             <div className="flex flex-col gap-2">
               {upcoming.map((task) => (
-                <div key={task.id} className="flex items-center justify-between bg-slate-800 rounded-xl px-4 py-3">
+                <div key={task.id} className="flex items-center justify-between bg-slate-600 rounded-xl px-4 py-3">
                   <span className="text-slate-200 text-sm">{task.name}</span>
                   <span className="text-xs text-slate-400">
                     {format(parseISO(task.next_due_date), 'MMM d')}

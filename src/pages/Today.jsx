@@ -145,7 +145,7 @@ export default function Today() {
                 <span>{totalDone} of {totalDue} complete</span>
                 <span>{Math.round((totalDone / totalDue) * 100)}%</span>
               </div>
-              <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-slate-600 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-green-400 rounded-full transition-all duration-500"
                   style={{ width: `${(totalDone / totalDue) * 100}%` }}

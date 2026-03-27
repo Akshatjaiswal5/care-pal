@@ -106,7 +106,7 @@ export default function Manage() {
 
             <div className="flex flex-col gap-2 mb-4">
               {modules.map((mod) => (
-                <div key={mod.id} className="flex items-center gap-3 bg-slate-800 rounded-2xl px-4 py-3">
+                <div key={mod.id} className="flex items-center gap-3 bg-slate-600 rounded-2xl px-4 py-3">
                   <button onClick={() => setActiveModule(mod)} className="flex items-center gap-3 flex-1 min-w-0">
                     <span className="text-xl">{mod.icon}</span>
                     <span className="font-medium text-slate-100 truncate">{mod.name}</span>
@@ -130,7 +130,7 @@ export default function Manage() {
 
             <button
               onClick={() => { setEditingModule(null); setShowModuleForm(true) }}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-dashed border-slate-700 text-slate-400 text-sm font-medium"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-dashed border-slate-600 text-slate-400 text-sm font-medium"
             >
               + Add Module
             </button>
@@ -154,7 +154,7 @@ export default function Manage() {
 
             <div className="flex flex-col gap-2 mb-4">
               {moduleTasks.map((task) => (
-                <div key={task.id} className="bg-slate-800 rounded-2xl px-4 py-3">
+                <div key={task.id} className="bg-slate-600 rounded-2xl px-4 py-3">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium text-slate-100">{task.name}</p>
@@ -188,7 +188,7 @@ export default function Manage() {
 
             <button
               onClick={() => { setEditingTask(null); setShowTaskForm(true) }}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-dashed border-slate-700 text-slate-400 text-sm font-medium"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-dashed border-slate-600 text-slate-400 text-sm font-medium"
             >
               + Add Task
             </button>
@@ -238,7 +238,7 @@ function ModuleForm({ initial, onSave, onCancel }) {
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-1 w-full bg-slate-800 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
+          className="mt-1 w-full bg-slate-600 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
           placeholder="e.g. Skincare"
         />
       </label>
@@ -250,7 +250,7 @@ function ModuleForm({ initial, onSave, onCancel }) {
             <button
               key={ic}
               onClick={() => setIcon(ic)}
-              className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center ${icon === ic ? 'bg-green-400/20 ring-2 ring-green-400' : 'bg-slate-800'}`}
+              className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center ${icon === ic ? 'bg-green-400/20 ring-2 ring-green-400' : 'bg-slate-600'}`}
             >
               {ic}
             </button>
@@ -265,7 +265,7 @@ function ModuleForm({ initial, onSave, onCancel }) {
             <button
               key={c}
               onClick={() => setColor(c)}
-              className={`w-8 h-8 rounded-full ${color === c ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-900' : ''}`}
+              className={`w-8 h-8 rounded-full ${color === c ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-800' : ''}`}
               style={{ backgroundColor: c }}
             />
           ))}
@@ -314,7 +314,7 @@ function TaskForm({ initial, onSave, onCancel }) {
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-1 w-full bg-slate-800 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
+          className="mt-1 w-full bg-slate-600 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
           placeholder="e.g. Apply moisturizer"
         />
       </label>
@@ -327,7 +327,7 @@ function TaskForm({ initial, onSave, onCancel }) {
               key={t}
               onClick={() => setTaskType(t)}
               className={`flex-1 py-2.5 rounded-xl text-sm font-medium capitalize ${
-                taskType === t ? 'bg-green-400 text-slate-900' : 'bg-slate-800 text-slate-400'
+                taskType === t ? 'bg-green-400 text-slate-900' : 'bg-slate-600 text-slate-400'
               }`}
             >
               {t}
@@ -345,7 +345,7 @@ function TaskForm({ initial, onSave, onCancel }) {
                 key={s}
                 onClick={() => setSlot(s)}
                 className={`flex-1 py-2.5 rounded-xl text-sm font-medium capitalize ${
-                  slot === s ? 'bg-green-400 text-slate-900' : 'bg-slate-800 text-slate-400'
+                  slot === s ? 'bg-green-400 text-slate-900' : 'bg-slate-600 text-slate-400'
                 }`}
               >
                 {s}
@@ -364,7 +364,7 @@ function TaskForm({ initial, onSave, onCancel }) {
               min="1"
               value={intervalDays}
               onChange={(e) => setIntervalDays(Number(e.target.value))}
-              className="mt-1 w-full bg-slate-800 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
+              className="mt-1 w-full bg-slate-600 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
             />
           </label>
 
@@ -374,14 +374,14 @@ function TaskForm({ initial, onSave, onCancel }) {
               type="date"
               value={nextDueDate}
               onChange={(e) => setNextDueDate(e.target.value)}
-              className="mt-1 w-full bg-slate-800 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
+              className="mt-1 w-full bg-slate-600 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
             />
           </label>
 
           <label className="flex items-center gap-3 mb-4 cursor-pointer">
             <div
               onClick={() => setIsReschedulable(!isReschedulable)}
-              className={`w-11 h-6 rounded-full transition-colors ${isReschedulable ? 'bg-green-400' : 'bg-slate-700'}`}
+              className={`w-11 h-6 rounded-full transition-colors ${isReschedulable ? 'bg-green-400' : 'bg-slate-600'}`}
             >
               <div className={`w-5 h-5 rounded-full bg-white m-0.5 transition-transform ${isReschedulable ? 'translate-x-5' : ''}`} />
             </div>
@@ -396,7 +396,7 @@ function TaskForm({ initial, onSave, onCancel }) {
           type="time"
           value={deadlineTime}
           onChange={(e) => setDeadlineTime(e.target.value)}
-          className="mt-1 w-full bg-slate-800 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
+          className="mt-1 w-full bg-slate-600 rounded-xl px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-green-400"
         />
       </label>
 
