@@ -19,7 +19,6 @@ export default function Today() {
   const [loading, setLoading] = useState(true)
 
   const dateStr = today()
-  const dateLabel = format(new Date(), 'EEEE, MMM d')
 
   useEffect(() => { load() }, [])
 
@@ -64,6 +63,7 @@ export default function Today() {
 
   const totalDue = dueTasks.length
   const totalDone = logs.filter((l) => l.status === 'done' && dueTasks.find((t) => t.id === l.task_id)).length
+  const pct = totalDue > 0 ? Math.round((totalDone / totalDue) * 100) : 0
   const allDone = totalDue > 0 && totalDone === totalDue
 
   const morningByModule = groupByModule(modules, morningTasks)
@@ -73,49 +73,53 @@ export default function Today() {
   if (loading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: '#FFCC00', borderTopColor: 'transparent' }} />
+        <div className="w-7 h-7 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: '#FFCC00', borderTopColor: 'transparent' }} />
       </div>
     )
   }
 
   return (
     <div className="page-content">
-      {/* Header */}
-      <div className="px-5 pt-14 pb-5" style={{ background: 'linear-gradient(160deg, #FFCC00 0%, #FFE066 100%)' }}>
-        <p className="text-[13px] font-medium text-yellow-900/60 mb-0.5">{dateLabel}</p>
-        <h1 className="text-[26px] font-bold text-gray-900 leading-tight">
-          {allDone ? '✓ All done!' : "Today's Routine"}
+      <div className="px-6 pt-14 pb-2">
+        {/* Header */}
+        <p className="text-[13px] font-medium mb-1" style={{ color: '#636366' }}>
+          {format(new Date(), 'EEEE, MMMM d')}
+        </p>
+        <h1 style={{ fontSize: 34, fontWeight: 700, letterSpacing: -0.5, color: '#000', lineHeight: 1.1 }}>
+          {allDone ? 'All Done ✓' : 'Today'}
         </h1>
+
+        {/* Progress */}
         {totalDue > 0 && (
-          <div className="mt-3">
-            <div className="flex justify-between text-xs text-yellow-900/50 mb-1.5">
-              <span>{totalDone} of {totalDue} complete</span>
-              <span className="font-semibold">{Math.round((totalDone / totalDue) * 100)}%</span>
+          <div className="mt-4 mb-2">
+            <div className="flex justify-between mb-1.5">
+              <span className="section-label">{totalDone} of {totalDue} complete</span>
+              <span className="text-[12px] font-semibold" style={{ color: '#FFCC00' }}>{pct}%</span>
             </div>
-            <div className="h-1.5 bg-yellow-900/10 rounded-full overflow-hidden">
+            <div className="rounded-full overflow-hidden" style={{ height: 4, backgroundColor: '#e5e5ea' }}>
               <div
-                className="h-full rounded-full transition-all duration-500 bg-yellow-900/25"
-                style={{ width: `${(totalDone / totalDue) * 100}%` }}
+                className="h-full rounded-full transition-all duration-500"
+                style={{ width: `${pct}%`, backgroundColor: '#FFCC00' }}
               />
             </div>
           </div>
         )}
       </div>
 
-      <div className="px-4 pt-5">
+      <div className="px-4 pt-4">
         {totalDue === 0 && (
           <div className="text-center py-16">
             <p className="text-4xl mb-3">🌿</p>
-            <p className="text-gray-400 font-medium">No tasks for today</p>
-            <p className="text-gray-300 text-sm mt-1">Add some in Manage</p>
+            <p className="text-[17px] font-medium" style={{ color: '#636366' }}>No tasks for today</p>
+            <p className="text-[14px] mt-1" style={{ color: '#c7c7cc' }}>Add some in Manage</p>
           </div>
         )}
 
         {morningByModule.length > 0 && (
           <section className="mb-7">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-base">🌅</span>
-              <h2 className="text-[15px] font-semibold text-gray-700">Morning</h2>
+              <span>🌅</span>
+              <h2 className="text-[17px] font-semibold" style={{ color: '#000' }}>Morning</h2>
             </div>
             {morningByModule.map(({ module, tasks }) => (
               <ModuleSection key={module.id} module={module} tasks={tasks} logs={logs} onDone={handleDone} onSkip={handleSkip} onPostpone={handlePostpone} />
@@ -126,8 +130,8 @@ export default function Today() {
         {nightByModule.length > 0 && (
           <section className="mb-7">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-base">🌙</span>
-              <h2 className="text-[15px] font-semibold text-gray-700">Night</h2>
+              <span>🌙</span>
+              <h2 className="text-[17px] font-semibold" style={{ color: '#000' }}>Night</h2>
             </div>
             {nightByModule.map(({ module, tasks }) => (
               <ModuleSection key={module.id} module={module} tasks={tasks} logs={logs} onDone={handleDone} onSkip={handleSkip} onPostpone={handlePostpone} />
@@ -138,8 +142,8 @@ export default function Today() {
         {scheduledByModule.length > 0 && (
           <section className="mb-7">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-base">📅</span>
-              <h2 className="text-[15px] font-semibold text-gray-700">Scheduled</h2>
+              <span>📅</span>
+              <h2 className="text-[17px] font-semibold" style={{ color: '#000' }}>Scheduled</h2>
             </div>
             {scheduledByModule.map(({ module, tasks }) => (
               <ModuleSection key={module.id} module={module} tasks={tasks} logs={logs} onDone={handleDone} onSkip={handleSkip} onPostpone={handlePostpone} />
@@ -161,10 +165,6 @@ function groupByModule(modules, tasks) {
 function upsertLocal(prev, taskId, date, status) {
   const existing = prev.findIndex((l) => l.task_id === taskId)
   const entry = { task_id: taskId, date, status }
-  if (existing >= 0) {
-    const next = [...prev]
-    next[existing] = entry
-    return next
-  }
+  if (existing >= 0) { const next = [...prev]; next[existing] = entry; return next }
   return [...prev, entry]
 }

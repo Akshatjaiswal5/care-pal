@@ -48,24 +48,23 @@ export default function Calendar() {
 
   const selectedLogs = selectedDate ? getLogsForDay(selectedDate) : []
   const selectedTaskDetails = selectedLogs.map((log) => ({
-    log,
-    task: tasks.find((t) => t.id === log.task_id),
+    log, task: tasks.find((t) => t.id === log.task_id),
   })).filter((x) => x.task)
 
   return (
     <div className="page-content">
-      <div className="px-5 pt-14 pb-4">
-        <h1 className="text-[26px] font-bold text-gray-900 mb-5">Calendar</h1>
+      <div className="px-6 pt-14 pb-4">
+        <h1 style={{ fontSize: 34, fontWeight: 700, letterSpacing: -0.5, color: '#000', marginBottom: 20 }}>Calendar</h1>
 
-        {/* Month navigation */}
+        {/* Month nav */}
         <div className="flex items-center justify-between mb-4">
-          <button onClick={() => setCurrentMonth((m) => subMonths(m, 1))} className="w-9 h-9 flex items-center justify-center rounded-xl bg-white shadow-sm text-gray-500">
+          <button onClick={() => setCurrentMonth((m) => subMonths(m, 1))} className="w-9 h-9 flex items-center justify-center rounded-xl card" style={{ color: '#636366' }}>
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h2 className="text-base font-semibold text-gray-700">{format(currentMonth, 'MMMM yyyy')}</h2>
-          <button onClick={() => setCurrentMonth((m) => addMonths(m, 1))} className="w-9 h-9 flex items-center justify-center rounded-xl bg-white shadow-sm text-gray-500">
+          <span className="text-[17px] font-semibold" style={{ color: '#000' }}>{format(currentMonth, 'MMMM yyyy')}</span>
+          <button onClick={() => setCurrentMonth((m) => addMonths(m, 1))} className="w-9 h-9 flex items-center justify-center rounded-xl card" style={{ color: '#636366' }}>
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
@@ -74,14 +73,14 @@ export default function Calendar() {
 
         {/* Day labels */}
         <div className="grid grid-cols-7 mb-1">
-          {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
-            <div key={i} className="text-center text-[11px] font-medium text-gray-400 py-1">{d}</div>
+          {['S','M','T','W','T','F','S'].map((d, i) => (
+            <div key={i} className="text-center section-label py-1">{d}</div>
           ))}
         </div>
 
-        {/* Calendar grid */}
+        {/* Grid */}
         <div className="grid grid-cols-7 gap-0.5 mb-6">
-          {Array.from({ length: startPad }).map((_, i) => <div key={`pad-${i}`} />)}
+          {Array.from({ length: startPad }).map((_, i) => <div key={`p${i}`} />)}
           {days.map((day) => {
             const status = getDayStatus(day)
             const isSelected = selectedDate && format(day, 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd')
@@ -90,34 +89,48 @@ export default function Calendar() {
               <button
                 key={day}
                 onClick={() => setSelectedDate(isSelected ? null : day)}
-                className="aspect-square rounded-xl flex flex-col items-center justify-center text-[13px] font-medium transition-all relative"
-                style={isSelected ? { backgroundColor: '#FFCC00', color: '#1c1c1e' } : todayDay ? { backgroundColor: '#FFF3B0', color: '#7a6500' } : { color: '#3c3c43' }}
+                className="aspect-square rounded-xl flex flex-col items-center justify-center text-[13px] font-medium relative transition-all"
+                style={
+                  isSelected
+                    ? { backgroundColor: '#FFCC00', color: '#000' }
+                    : todayDay
+                    ? { backgroundColor: '#FFF9E6', color: '#7a6500', fontWeight: 700 }
+                    : { color: '#000' }
+                }
               >
                 {format(day, 'd')}
                 {status !== 'empty' && !isSelected && (
-                  <div className={`absolute bottom-1 w-1 h-1 rounded-full ${status === 'full' ? 'bg-yellow-400' : 'bg-orange-300'}`} />
+                  <span
+                    className="absolute bottom-[3px] w-1 h-1 rounded-full"
+                    style={{ backgroundColor: status === 'full' ? '#FFCC00' : '#ff9500' }}
+                  />
                 )}
               </button>
             )
           })}
         </div>
 
-        {/* Selected date detail */}
+        {/* Selected day */}
         {selectedDate && (
           <div className="mb-6">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">{format(selectedDate, 'EEEE, MMMM d')}</p>
+            <p className="section-label mb-3">{format(selectedDate, 'EEEE, MMMM d')}</p>
             {selectedTaskDetails.length === 0 ? (
-              <p className="text-gray-400 text-sm">No activity recorded.</p>
+              <p className="text-[15px]" style={{ color: '#636366' }}>No activity recorded.</p>
             ) : (
-              <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="card overflow-hidden">
                 {selectedTaskDetails.map(({ log, task }, i) => (
-                  <div key={log.task_id} className={`flex items-center justify-between px-4 py-3 ${i > 0 ? 'border-t border-gray-50' : ''}`}>
-                    <span className="text-gray-800 text-[15px]">{task.name}</span>
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg ${
-                      log.status === 'done' ? 'bg-yellow-50 text-yellow-700' :
-                      log.status === 'skipped' ? 'bg-gray-100 text-gray-400' :
-                      'bg-orange-50 text-orange-500'
-                    }`}>
+                  <div key={log.task_id} className="flex items-center justify-between px-4 py-3" style={i > 0 ? { borderTop: '1px solid #f2f2f7' } : {}}>
+                    <span className="text-[15px]" style={{ color: '#000' }}>{task.name}</span>
+                    <span
+                      className="text-[12px] font-semibold px-2.5 py-1 rounded-lg"
+                      style={
+                        log.status === 'done'
+                          ? { backgroundColor: '#FFF9E6', color: '#7a6500' }
+                          : log.status === 'skipped'
+                          ? { backgroundColor: '#f2f2f7', color: '#636366' }
+                          : { backgroundColor: '#fff3e0', color: '#ff9500' }
+                      }
+                    >
                       {log.status}
                     </span>
                   </div>
@@ -130,12 +143,12 @@ export default function Calendar() {
         {/* Upcoming scheduled */}
         {upcoming.length > 0 && (
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Upcoming</p>
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <p className="section-label mb-3">Upcoming</p>
+            <div className="card overflow-hidden">
               {upcoming.map((task, i) => (
-                <div key={task.id} className={`flex items-center justify-between px-4 py-3 ${i > 0 ? 'border-t border-gray-50' : ''}`}>
-                  <span className="text-gray-800 text-[15px]">{task.name}</span>
-                  <span className="text-xs font-medium text-gray-400">{format(parseISO(task.next_due_date), 'MMM d')}</span>
+                <div key={task.id} className="flex items-center justify-between px-4 py-3" style={i > 0 ? { borderTop: '1px solid #f2f2f7' } : {}}>
+                  <span className="text-[15px]" style={{ color: '#000' }}>{task.name}</span>
+                  <span className="text-[13px] font-medium" style={{ color: '#636366' }}>{format(parseISO(task.next_due_date), 'MMM d')}</span>
                 </div>
               ))}
             </div>

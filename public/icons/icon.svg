@@ -1,11 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
   <rect width="512" height="512" rx="112" fill="#FFCC00"/>
-  <!-- Sparkle / star top right -->
-  <circle cx="340" cy="140" r="10" fill="white" opacity="0.6"/>
-  <!-- Main leaf shape -->
-  <path d="M180 340 C180 340 160 260 200 210 C230 170 280 155 310 160 C340 165 355 185 350 210 C340 255 300 290 260 310 C240 320 210 330 180 340Z" fill="white"/>
-  <!-- Stem -->
-  <path d="M180 340 C195 310 220 280 256 256" stroke="white" stroke-width="16" stroke-linecap="round" fill="none"/>
-  <!-- Vein -->
-  <path d="M310 160 C290 200 260 240 200 290" stroke="#FFCC00" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <!-- Checklist body -->
+  <rect x="134" y="148" width="244" height="216" rx="24" fill="white"/>
+  <!-- Row 1: checked -->
+  <circle cx="174" cy="208" r="16" fill="#FFCC00"/>
+  <path d="M165 208 L171 214 L183 202" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <rect x="202" y="200" width="112" height="10" rx="5" fill="#1c1c1e" opacity="0.15"/>
+  <!-- Row 2: checked -->
+  <circle cx="174" cy="256" r="16" fill="#FFCC00"/>
+  <path d="M165 256 L171 262 L183 250" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <rect x="202" y="248" width="88" height="10" rx="5" fill="#1c1c1e" opacity="0.15"/>
+  <!-- Row 3: unchecked -->
+  <circle cx="174" cy="304" r="16" fill="none" stroke="#FFCC00" stroke-width="3"/>
+  <rect x="202" y="296" width="100" height="10" rx="5" fill="#1c1c1e" opacity="0.1"/>
 </svg>

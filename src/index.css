@@ -8,10 +8,11 @@
 
 body {
   background-color: #f2f2f7;
-  color: #1c1c1e;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
   min-height: 100dvh;
   overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
@@ -23,5 +24,21 @@ body {
 .page-content {
   flex: 1;
   overflow-y: auto;
-  padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+  padding-bottom: calc(56px + env(safe-area-inset-bottom));
+}
+
+/* iOS-style section label */
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #636366;
+}
+
+/* Card shadow consistent with iOS */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }

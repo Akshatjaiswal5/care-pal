@@ -8,21 +8,24 @@ export default function ModuleSection({ module, tasks, logs, onDone, onSkip, onP
 
   return (
     <div className="mb-5">
-      <div className="flex items-center gap-1.5 mb-2 px-1">
-        <span className="text-sm">{module.icon}</span>
-        <h3 className="text-xs font-semibold text-gray-400 tracking-wider uppercase">{module.name}</h3>
-        <span className="ml-auto text-xs text-gray-300">{doneCount}/{tasks.length}</span>
+      <div className="flex items-center justify-between mb-2 px-1">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[13px]">{module.icon}</span>
+          <span className="section-label">{module.name}</span>
+        </div>
+        <span className="text-[12px] font-medium" style={{ color: '#c7c7cc' }}>{doneCount}/{tasks.length}</span>
       </div>
-      <div className="flex flex-col gap-2">
-        {tasks.map((task) => (
-          <TaskCard
-            key={task.id}
-            task={task}
-            log={logsMap[task.id]}
-            onDone={onDone}
-            onSkip={onSkip}
-            onPostpone={onPostpone}
-          />
+      <div className="card divide-y" style={{ divideColor: '#f2f2f7' }}>
+        {tasks.map((task, i) => (
+          <div key={task.id} style={i > 0 ? { borderTop: '1px solid #f2f2f7' } : {}}>
+            <TaskCard
+              task={task}
+              log={logsMap[task.id]}
+              onDone={onDone}
+              onSkip={onSkip}
+              onPostpone={onPostpone}
+            />
+          </div>
         ))}
       </div>
     </div>
