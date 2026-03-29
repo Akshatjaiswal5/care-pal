@@ -23,8 +23,6 @@ body {
 
 .page-content {
   flex: 1;
-  overflow-y: auto;
-  padding-bottom: calc(56px + env(safe-area-inset-bottom));
 }
 
 /* iOS-style section label */

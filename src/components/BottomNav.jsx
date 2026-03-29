@@ -34,13 +34,13 @@ const tabs = [
 export default function BottomNav() {
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 md:max-w-sm md:left-1/2 md:-translate-x-1/2"
       style={{
-        background: 'rgba(255,255,255,0.85)',
+        background: 'rgba(255,255,255,0.92)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
         borderTop: '1px solid rgba(0,0,0,0.08)',
         paddingBottom: 'env(safe-area-inset-bottom)',
+        flexShrink: 0,
       }}
     >
       <div className="flex justify-around items-center" style={{ height: 56 }}>
