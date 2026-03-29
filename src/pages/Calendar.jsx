@@ -92,9 +92,9 @@ export default function Calendar() {
                 className="aspect-square rounded-xl flex flex-col items-center justify-center text-[13px] font-medium relative transition-all"
                 style={
                   isSelected
-                    ? { backgroundColor: '#FFCC00', color: '#000' }
+                    ? { backgroundColor: '#FFFC00', color: '#000' }
                     : todayDay
-                    ? { backgroundColor: '#FFF9E6', color: '#7a6500', fontWeight: 700 }
+                    ? { backgroundColor: '#FFFDE6', color: '#5a4a00', fontWeight: 700 }
                     : { color: '#000' }
                 }
               >
@@ -102,7 +102,7 @@ export default function Calendar() {
                 {status !== 'empty' && !isSelected && (
                   <span
                     className="absolute bottom-[3px] w-1 h-1 rounded-full"
-                    style={{ backgroundColor: status === 'full' ? '#FFCC00' : '#ff9500' }}
+                    style={{ backgroundColor: status === 'full' ? '#FFFC00' : '#ff9500' }}
                   />
                 )}
               </button>
@@ -125,7 +125,7 @@ export default function Calendar() {
                       className="text-[12px] font-semibold px-2.5 py-1 rounded-lg"
                       style={
                         log.status === 'done'
-                          ? { backgroundColor: '#FFF9E6', color: '#7a6500' }
+                          ? { backgroundColor: '#FFFDE6', color: '#5a4a00' }
                           : log.status === 'skipped'
                           ? { backgroundColor: '#f2f2f7', color: '#636366' }
                           : { backgroundColor: '#fff3e0', color: '#ff9500' }

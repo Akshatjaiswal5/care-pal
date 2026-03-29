@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <!-- Background -->
-  <rect width="512" height="512" rx="112" fill="#FFCC00"/>
+  <rect width="512" height="512" rx="112" fill="#FFFC00"/>
   <!-- Checklist body -->
   <rect x="134" y="148" width="244" height="216" rx="24" fill="white"/>
   <!-- Row 1: checked -->
-  <circle cx="174" cy="208" r="16" fill="#FFCC00"/>
+  <circle cx="174" cy="208" r="16" fill="#FFFC00"/>
   <path d="M165 208 L171 214 L183 202" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   <rect x="202" y="200" width="112" height="10" rx="5" fill="#1c1c1e" opacity="0.15"/>
   <!-- Row 2: checked -->
-  <circle cx="174" cy="256" r="16" fill="#FFCC00"/>
+  <circle cx="174" cy="256" r="16" fill="#FFFC00"/>
   <path d="M165 256 L171 262 L183 250" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   <rect x="202" y="248" width="88" height="10" rx="5" fill="#1c1c1e" opacity="0.15"/>
   <!-- Row 3: unchecked -->
-  <circle cx="174" cy="304" r="16" fill="none" stroke="#FFCC00" stroke-width="3"/>
+  <circle cx="174" cy="304" r="16" fill="none" stroke="#FFFC00" stroke-width="3"/>
   <rect x="202" y="296" width="100" height="10" rx="5" fill="#1c1c1e" opacity="0.1"/>
 </svg>
