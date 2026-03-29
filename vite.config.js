@@ -12,7 +12,7 @@ export default defineConfig({
         name: 'Care Pal',
         short_name: 'Care Pal',
         description: 'Your daily self-care routine tracker',
-        theme_color: '#ffffff',
+        theme_color: '#FFCC00',
         background_color: '#f2f2f7',
         background_color: '#0f172a',
         display: 'standalone',

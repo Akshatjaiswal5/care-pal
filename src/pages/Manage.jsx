@@ -71,50 +71,59 @@ export default function Manage() {
   if (loading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-green-500 border-t-transparent animate-spin" />
+        <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: '#FFCC00', borderTopColor: 'transparent' }} />
       </div>
     )
   }
 
   return (
     <div className="page-content">
-      <div className="px-4 pt-14 pb-4">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Manage</h1>
+      <div className="px-5 pt-14 pb-4">
+        <h1 className="text-[26px] font-bold text-gray-900 mb-5">Manage</h1>
 
         {!activeModule && !showModuleForm && (
           <>
             {modules.length === 0 && (
               <div className="text-center py-8 mb-6">
                 <p className="text-gray-400 mb-4">No modules yet.</p>
-                <button onClick={handleSeedDefaults} className="text-green-600 text-sm bg-green-50 px-4 py-2 rounded-xl font-medium">
+                <button onClick={handleSeedDefaults} className="text-sm font-semibold px-5 py-2.5 rounded-2xl" style={{ backgroundColor: '#FFCC00', color: '#7a6500' }}>
                   Add default modules
                 </button>
               </div>
             )}
-            <div className="flex flex-col gap-2 mb-4">
-              {modules.map((mod) => (
-                <div key={mod.id} className="flex items-center gap-3 bg-white rounded-2xl px-4 py-3 shadow-sm">
-                  <button onClick={() => setActiveModule(mod)} className="flex items-center gap-3 flex-1 min-w-0">
-                    <span className="text-xl">{mod.icon}</span>
-                    <span className="font-medium text-gray-900 truncate">{mod.name}</span>
-                    <span className="text-xs text-gray-400 ml-auto">{tasks.filter((t) => t.module_id === mod.id).length} tasks</span>
-                  </button>
-                  <button onClick={() => { setEditingModule(mod); setShowModuleForm(true) }} className="text-gray-400 p-1">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                  </button>
-                  <button onClick={() => handleDeleteModule(mod)} className="text-red-400 p-1">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-                </div>
-              ))}
-            </div>
+
+            {modules.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-4">
+                {modules.map((mod, i) => (
+                  <div key={mod.id} className={`flex items-center gap-3 px-4 py-3.5 ${i > 0 ? 'border-t border-gray-50' : ''}`}>
+                    <button onClick={() => setActiveModule(mod)} className="flex items-center gap-3 flex-1 min-w-0">
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0" style={{ backgroundColor: mod.color + '20' }}>
+                        {mod.icon}
+                      </div>
+                      <span className="font-medium text-gray-900 truncate text-[15px]">{mod.name}</span>
+                      <span className="text-xs text-gray-400 ml-auto mr-1 shrink-0">{tasks.filter((t) => t.module_id === mod.id).length}</span>
+                      <svg className="w-4 h-4 text-gray-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                    <button onClick={() => { setEditingModule(mod); setShowModuleForm(true) }} className="text-gray-400 p-1 shrink-0">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+                    <button onClick={() => handleDeleteModule(mod)} className="text-red-400 p-1 shrink-0">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
             <button
               onClick={() => { setEditingModule(null); setShowModuleForm(true) }}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-dashed border-gray-300 text-gray-400 text-sm font-medium"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl border-2 border-dashed border-gray-200 text-gray-400 text-sm font-medium"
             >
               + Add Module
             </button>
@@ -123,49 +132,56 @@ export default function Manage() {
 
         {activeModule && !showTaskForm && (
           <>
-            <button onClick={() => setActiveModule(null)} className="flex items-center gap-1 text-gray-400 text-sm mb-4">
+            <button onClick={() => setActiveModule(null)} className="flex items-center gap-1 text-gray-400 text-sm mb-4 -mt-1">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
               Back
             </button>
-            <div className="flex items-center gap-2 mb-5">
-              <span className="text-2xl">{activeModule.icon}</span>
-              <h2 className="text-lg font-semibold text-gray-900">{activeModule.name}</h2>
+
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-11 h-11 rounded-2xl flex items-center justify-center text-2xl" style={{ backgroundColor: activeModule.color + '20' }}>
+                {activeModule.icon}
+              </div>
+              <h2 className="text-xl font-bold text-gray-900">{activeModule.name}</h2>
             </div>
-            <div className="flex flex-col gap-2 mb-4">
-              {moduleTasks.map((task) => (
-                <div key={task.id} className="bg-white rounded-2xl px-4 py-3 shadow-sm">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium text-gray-900">{task.name}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">
-                        {task.task_type === 'daily'
-                          ? `Daily · ${task.slot}`
-                          : `Every ${task.interval_days} days${task.next_due_date ? ` · next: ${task.next_due_date}` : ''}`}
-                        {task.deadline_time ? ` · by ${formatTime(task.deadline_time)}` : ''}
-                        {task.is_reschedulable ? ' · reschedulable' : ''}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <button onClick={() => { setEditingTask(task); setShowTaskForm(true) }} className="text-gray-400 p-1">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                      </button>
-                      <button onClick={() => handleDeleteTask(task)} className="text-red-400 p-1">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
+
+            {moduleTasks.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-4">
+                {moduleTasks.map((task, i) => (
+                  <div key={task.id} className={`px-4 py-3.5 ${i > 0 ? 'border-t border-gray-50' : ''}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-gray-900 text-[15px]">{task.name}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {task.task_type === 'daily'
+                            ? `Daily · ${task.slot}`
+                            : `Every ${task.interval_days} days${task.next_due_date ? ` · next: ${task.next_due_date}` : ''}`}
+                          {task.deadline_time ? ` · by ${formatTime(task.deadline_time)}` : ''}
+                          {task.is_reschedulable ? ' · reschedulable' : ''}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button onClick={() => { setEditingTask(task); setShowTaskForm(true) }} className="text-gray-400 p-1">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                        </button>
+                        <button onClick={() => handleDeleteTask(task)} className="text-red-400 p-1">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
+
             <button
               onClick={() => { setEditingTask(null); setShowTaskForm(true) }}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-dashed border-gray-300 text-gray-400 text-sm font-medium"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl border-2 border-dashed border-gray-200 text-gray-400 text-sm font-medium"
             >
               + Add Task
             </button>
@@ -199,57 +215,59 @@ function ModuleForm({ initial, onSave, onCancel }) {
 
   return (
     <div>
-      <button onClick={onCancel} className="flex items-center gap-1 text-gray-400 text-sm mb-4">
+      <button onClick={onCancel} className="flex items-center gap-1 text-gray-400 text-sm mb-4 -mt-1">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
         Back
       </button>
-      <h2 className="text-lg font-semibold text-gray-900 mb-5">{initial ? 'Edit Module' : 'New Module'}</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-5">{initial ? 'Edit Module' : 'New Module'}</h2>
 
-      <label className="block mb-4">
-        <span className="text-xs text-gray-400 uppercase tracking-wide">Name</span>
+      <div className="mb-4">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Name</p>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-1 w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
+          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-[15px] outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100"
           placeholder="e.g. Skincare"
         />
-      </label>
+      </div>
 
-      <label className="block mb-4">
-        <span className="text-xs text-gray-400 uppercase tracking-wide">Icon</span>
-        <div className="mt-2 flex flex-wrap gap-2">
+      <div className="mb-4">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Icon</p>
+        <div className="flex flex-wrap gap-2">
           {MODULE_ICONS.map((ic) => (
             <button
               key={ic}
               onClick={() => setIcon(ic)}
-              className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center ${icon === ic ? 'bg-green-100 ring-2 ring-green-500' : 'bg-white border border-gray-200'}`}
+              className="w-11 h-11 rounded-xl text-xl flex items-center justify-center border-2 transition-all"
+              style={icon === ic ? { borderColor: '#FFCC00', backgroundColor: '#FFF9E6' } : { borderColor: 'transparent', backgroundColor: 'white' }}
             >
               {ic}
             </button>
           ))}
         </div>
-      </label>
+      </div>
 
-      <label className="block mb-6">
-        <span className="text-xs text-gray-400 uppercase tracking-wide">Color</span>
-        <div className="mt-2 flex flex-wrap gap-2">
+      <div className="mb-7">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Color</p>
+        <div className="flex flex-wrap gap-3">
           {MODULE_COLORS.map((c) => (
             <button
               key={c}
               onClick={() => setColor(c)}
-              className={`w-8 h-8 rounded-full ${color === c ? 'ring-2 ring-offset-2 ring-gray-400' : ''}`}
-              style={{ backgroundColor: c }}
+              className="w-9 h-9 rounded-full transition-all"
+              style={{ backgroundColor: c, outline: color === c ? `3px solid ${c}` : 'none', outlineOffset: '2px' }}
             />
           ))}
         </div>
-      </label>
+      </div>
 
       <button
         onClick={() => onSave({ name, icon, color })}
         disabled={!name.trim()}
-        className="w-full py-3 bg-green-500 text-white font-semibold rounded-2xl disabled:opacity-40"
+        className="w-full py-3.5 rounded-2xl font-semibold text-[15px] disabled:opacity-40"
+        style={{ backgroundColor: '#FFCC00', color: '#7a6500' }}
       >
         Save Module
       </button>
@@ -275,109 +293,101 @@ function TaskForm({ initial, onSave, onCancel }) {
 
   return (
     <div>
-      <button onClick={onCancel} className="flex items-center gap-1 text-gray-400 text-sm mb-4">
+      <button onClick={onCancel} className="flex items-center gap-1 text-gray-400 text-sm mb-4 -mt-1">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
         Back
       </button>
-      <h2 className="text-lg font-semibold text-gray-900 mb-5">{initial ? 'Edit Task' : 'New Task'}</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-5">{initial ? 'Edit Task' : 'New Task'}</h2>
 
-      <label className="block mb-4">
-        <span className="text-xs text-gray-400 uppercase tracking-wide">Task Name</span>
+      <div className="mb-4">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Task Name</p>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-1 w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
+          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-[15px] outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100"
           placeholder="e.g. Apply moisturizer"
         />
-      </label>
+      </div>
 
-      <label className="block mb-4">
-        <span className="text-xs text-gray-400 uppercase tracking-wide">Type</span>
-        <div className="mt-2 flex gap-2">
+      <div className="mb-4">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Type</p>
+        <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
           {['daily', 'scheduled'].map((t) => (
             <button
               key={t}
               onClick={() => setTaskType(t)}
-              className={`flex-1 py-2.5 rounded-xl text-sm font-medium capitalize ${
-                taskType === t ? 'bg-green-500 text-white' : 'bg-white border border-gray-200 text-gray-500'
-              }`}
+              className="flex-1 py-2 rounded-xl text-sm font-semibold capitalize transition-all"
+              style={taskType === t ? { backgroundColor: '#FFCC00', color: '#7a6500', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' } : { color: '#6b7280' }}
             >
               {t}
             </button>
           ))}
         </div>
-      </label>
+      </div>
 
       {taskType === 'daily' && (
-        <label className="block mb-4">
-          <span className="text-xs text-gray-400 uppercase tracking-wide">Time Slot</span>
-          <div className="mt-2 flex gap-2">
+        <div className="mb-4">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Time Slot</p>
+          <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
             {['morning', 'night', 'both'].map((s) => (
               <button
                 key={s}
                 onClick={() => setSlot(s)}
-                className={`flex-1 py-2.5 rounded-xl text-sm font-medium capitalize ${
-                  slot === s ? 'bg-green-500 text-white' : 'bg-white border border-gray-200 text-gray-500'
-                }`}
+                className="flex-1 py-2 rounded-xl text-sm font-semibold capitalize transition-all"
+                style={slot === s ? { backgroundColor: '#FFCC00', color: '#7a6500', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' } : { color: '#6b7280' }}
               >
                 {s}
               </button>
             ))}
           </div>
-        </label>
+        </div>
       )}
 
       {taskType === 'scheduled' && (
         <>
-          <label className="block mb-4">
-            <span className="text-xs text-gray-400 uppercase tracking-wide">Repeat every (days)</span>
+          <div className="mb-4">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Repeat every (days)</p>
             <input
-              type="number"
-              min="1"
-              value={intervalDays}
+              type="number" min="1" value={intervalDays}
               onChange={(e) => setIntervalDays(Number(e.target.value))}
-              className="mt-1 w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-[15px] outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100"
             />
-          </label>
-
-          <label className="block mb-4">
-            <span className="text-xs text-gray-400 uppercase tracking-wide">First due date</span>
+          </div>
+          <div className="mb-4">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">First due date</p>
             <input
-              type="date"
-              value={nextDueDate}
+              type="date" value={nextDueDate}
               onChange={(e) => setNextDueDate(e.target.value)}
-              className="mt-1 w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-[15px] outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100"
             />
-          </label>
-
-          <label className="flex items-center gap-3 mb-4 cursor-pointer">
+          </div>
+          <label className="flex items-center justify-between bg-white rounded-xl px-4 py-3.5 mb-4 shadow-sm cursor-pointer">
+            <span className="text-gray-700 text-[15px] font-medium">Reschedulable</span>
             <div
               onClick={() => setIsReschedulable(!isReschedulable)}
-              className={`w-11 h-6 rounded-full transition-colors ${isReschedulable ? 'bg-green-500' : 'bg-gray-200'}`}
+              className="w-12 h-7 rounded-full transition-colors relative shrink-0"
+              style={{ backgroundColor: isReschedulable ? '#FFCC00' : '#e5e7eb' }}
             >
-              <div className={`w-5 h-5 rounded-full bg-white shadow m-0.5 transition-transform ${isReschedulable ? 'translate-x-5' : ''}`} />
+              <div className={`w-6 h-6 rounded-full bg-white shadow-sm absolute top-0.5 transition-transform ${isReschedulable ? 'translate-x-5' : 'translate-x-0.5'}`} />
             </div>
-            <span className="text-gray-600 text-sm">Reschedulable (can postpone)</span>
           </label>
         </>
       )}
 
-      <label className="block mb-6">
-        <span className="text-xs text-gray-400 uppercase tracking-wide">Deadline time (optional)</span>
+      <div className="mb-7">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Deadline time (optional)</p>
         <input
-          type="time"
-          value={deadlineTime}
+          type="time" value={deadlineTime}
           onChange={(e) => setDeadlineTime(e.target.value)}
-          className="mt-1 w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
+          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-[15px] outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100"
         />
-      </label>
+      </div>
 
       <button
         onClick={() => onSave({
-          name,
-          task_type: taskType,
+          name, task_type: taskType,
           slot: taskType === 'daily' ? slot : null,
           interval_days: taskType === 'scheduled' ? intervalDays : null,
           next_due_date: taskType === 'scheduled' ? nextDueDate : null,
@@ -385,7 +395,8 @@ function TaskForm({ initial, onSave, onCancel }) {
           is_reschedulable: taskType === 'scheduled' ? isReschedulable : false,
         })}
         disabled={!name.trim()}
-        className="w-full py-3 bg-green-500 text-white font-semibold rounded-2xl disabled:opacity-40"
+        className="w-full py-3.5 rounded-2xl font-semibold text-[15px] disabled:opacity-40"
+        style={{ backgroundColor: '#FFCC00', color: '#7a6500' }}
       >
         Save Task
       </button>

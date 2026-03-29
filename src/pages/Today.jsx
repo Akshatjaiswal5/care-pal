@@ -73,48 +73,49 @@ export default function Today() {
   if (loading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-green-500 border-t-transparent animate-spin" />
+        <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: '#FFCC00', borderTopColor: 'transparent' }} />
       </div>
     )
   }
 
   return (
     <div className="page-content">
-      <div className="px-4 pt-14 pb-4">
-        <div className="mb-6">
-          <p className="text-gray-400 text-sm">{dateLabel}</p>
-          <h1 className="text-2xl font-bold text-gray-900 mt-0.5">
-            {allDone ? 'All done for today ✓' : "Today's Routine"}
-          </h1>
-          {totalDue > 0 && (
-            <div className="mt-3">
-              <div className="flex justify-between text-xs text-gray-400 mb-1">
-                <span>{totalDone} of {totalDue} complete</span>
-                <span>{Math.round((totalDone / totalDue) * 100)}%</span>
-              </div>
-              <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-green-500 rounded-full transition-all duration-500"
-                  style={{ width: `${(totalDone / totalDue) * 100}%` }}
-                />
-              </div>
+      {/* Header */}
+      <div className="px-5 pt-14 pb-5" style={{ background: 'linear-gradient(160deg, #FFCC00 0%, #FFE066 100%)' }}>
+        <p className="text-[13px] font-medium text-yellow-900/60 mb-0.5">{dateLabel}</p>
+        <h1 className="text-[26px] font-bold text-gray-900 leading-tight">
+          {allDone ? '✓ All done!' : "Today's Routine"}
+        </h1>
+        {totalDue > 0 && (
+          <div className="mt-3">
+            <div className="flex justify-between text-xs text-yellow-900/50 mb-1.5">
+              <span>{totalDone} of {totalDue} complete</span>
+              <span className="font-semibold">{Math.round((totalDone / totalDue) * 100)}%</span>
             </div>
-          )}
-        </div>
+            <div className="h-1.5 bg-yellow-900/10 rounded-full overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-500 bg-yellow-900/25"
+                style={{ width: `${(totalDone / totalDue) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
 
+      <div className="px-4 pt-5">
         {totalDue === 0 && (
           <div className="text-center py-16">
-            <p className="text-4xl mb-3">✦</p>
-            <p className="text-gray-400">No tasks for today.</p>
-            <p className="text-gray-300 text-sm mt-1">Add some in Manage.</p>
+            <p className="text-4xl mb-3">🌿</p>
+            <p className="text-gray-400 font-medium">No tasks for today</p>
+            <p className="text-gray-300 text-sm mt-1">Add some in Manage</p>
           </div>
         )}
 
         {morningByModule.length > 0 && (
-          <section className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
+          <section className="mb-7">
+            <div className="flex items-center gap-2 mb-3">
               <span className="text-base">🌅</span>
-              <h2 className="text-base font-semibold text-gray-700">Morning</h2>
+              <h2 className="text-[15px] font-semibold text-gray-700">Morning</h2>
             </div>
             {morningByModule.map(({ module, tasks }) => (
               <ModuleSection key={module.id} module={module} tasks={tasks} logs={logs} onDone={handleDone} onSkip={handleSkip} onPostpone={handlePostpone} />
@@ -123,10 +124,10 @@ export default function Today() {
         )}
 
         {nightByModule.length > 0 && (
-          <section className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
+          <section className="mb-7">
+            <div className="flex items-center gap-2 mb-3">
               <span className="text-base">🌙</span>
-              <h2 className="text-base font-semibold text-gray-700">Night</h2>
+              <h2 className="text-[15px] font-semibold text-gray-700">Night</h2>
             </div>
             {nightByModule.map(({ module, tasks }) => (
               <ModuleSection key={module.id} module={module} tasks={tasks} logs={logs} onDone={handleDone} onSkip={handleSkip} onPostpone={handlePostpone} />
@@ -135,10 +136,10 @@ export default function Today() {
         )}
 
         {scheduledByModule.length > 0 && (
-          <section className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
+          <section className="mb-7">
+            <div className="flex items-center gap-2 mb-3">
               <span className="text-base">📅</span>
-              <h2 className="text-base font-semibold text-gray-700">Scheduled</h2>
+              <h2 className="text-[15px] font-semibold text-gray-700">Scheduled</h2>
             </div>
             {scheduledByModule.map(({ module, tasks }) => (
               <ModuleSection key={module.id} module={module} tasks={tasks} logs={logs} onDone={handleDone} onSkip={handleSkip} onPostpone={handlePostpone} />

@@ -54,8 +54,8 @@ export default function Calendar() {
 
   return (
     <div className="page-content">
-      <div className="px-4 pt-14 pb-4">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Calendar</h1>
+      <div className="px-5 pt-14 pb-4">
+        <h1 className="text-[26px] font-bold text-gray-900 mb-5">Calendar</h1>
 
         {/* Month navigation */}
         <div className="flex items-center justify-between mb-4">
@@ -75,12 +75,12 @@ export default function Calendar() {
         {/* Day labels */}
         <div className="grid grid-cols-7 mb-1">
           {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
-            <div key={i} className="text-center text-xs text-gray-400 py-1">{d}</div>
+            <div key={i} className="text-center text-[11px] font-medium text-gray-400 py-1">{d}</div>
           ))}
         </div>
 
         {/* Calendar grid */}
-        <div className="grid grid-cols-7 gap-1 mb-6">
+        <div className="grid grid-cols-7 gap-0.5 mb-6">
           {Array.from({ length: startPad }).map((_, i) => <div key={`pad-${i}`} />)}
           {days.map((day) => {
             const status = getDayStatus(day)
@@ -90,13 +90,12 @@ export default function Calendar() {
               <button
                 key={day}
                 onClick={() => setSelectedDate(isSelected ? null : day)}
-                className={`aspect-square rounded-xl flex flex-col items-center justify-center text-sm font-medium transition-colors relative
-                  ${isSelected ? 'bg-green-500 text-white' : todayDay ? 'bg-green-50 text-green-600 font-semibold' : 'text-gray-600'}
-                `}
+                className="aspect-square rounded-xl flex flex-col items-center justify-center text-[13px] font-medium transition-all relative"
+                style={isSelected ? { backgroundColor: '#FFCC00', color: '#1c1c1e' } : todayDay ? { backgroundColor: '#FFF3B0', color: '#7a6500' } : { color: '#3c3c43' }}
               >
                 {format(day, 'd')}
                 {status !== 'empty' && !isSelected && (
-                  <div className={`absolute bottom-1 w-1 h-1 rounded-full ${status === 'full' ? 'bg-green-500' : 'bg-amber-400'}`} />
+                  <div className={`absolute bottom-1 w-1 h-1 rounded-full ${status === 'full' ? 'bg-yellow-400' : 'bg-orange-300'}`} />
                 )}
               </button>
             )
@@ -106,18 +105,18 @@ export default function Calendar() {
         {/* Selected date detail */}
         {selectedDate && (
           <div className="mb-6">
-            <h3 className="text-sm font-semibold text-gray-400 mb-3">{format(selectedDate, 'EEEE, MMMM d')}</h3>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">{format(selectedDate, 'EEEE, MMMM d')}</p>
             {selectedTaskDetails.length === 0 ? (
               <p className="text-gray-400 text-sm">No activity recorded.</p>
             ) : (
-              <div className="flex flex-col gap-2">
-                {selectedTaskDetails.map(({ log, task }) => (
-                  <div key={log.task_id} className="flex items-center justify-between bg-white rounded-xl px-4 py-3 shadow-sm">
-                    <span className="text-gray-800 text-sm">{task.name}</span>
-                    <span className={`text-xs font-medium px-2 py-0.5 rounded-lg ${
-                      log.status === 'done' ? 'bg-green-50 text-green-600' :
+              <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                {selectedTaskDetails.map(({ log, task }, i) => (
+                  <div key={log.task_id} className={`flex items-center justify-between px-4 py-3 ${i > 0 ? 'border-t border-gray-50' : ''}`}>
+                    <span className="text-gray-800 text-[15px]">{task.name}</span>
+                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg ${
+                      log.status === 'done' ? 'bg-yellow-50 text-yellow-700' :
                       log.status === 'skipped' ? 'bg-gray-100 text-gray-400' :
-                      'bg-amber-50 text-amber-500'
+                      'bg-orange-50 text-orange-500'
                     }`}>
                       {log.status}
                     </span>
@@ -131,12 +130,12 @@ export default function Calendar() {
         {/* Upcoming scheduled */}
         {upcoming.length > 0 && (
           <div>
-            <h3 className="text-sm font-semibold text-gray-400 mb-3">Upcoming Scheduled</h3>
-            <div className="flex flex-col gap-2">
-              {upcoming.map((task) => (
-                <div key={task.id} className="flex items-center justify-between bg-white rounded-xl px-4 py-3 shadow-sm">
-                  <span className="text-gray-800 text-sm">{task.name}</span>
-                  <span className="text-xs text-gray-400">{format(parseISO(task.next_due_date), 'MMM d')}</span>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Upcoming</p>
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              {upcoming.map((task, i) => (
+                <div key={task.id} className={`flex items-center justify-between px-4 py-3 ${i > 0 ? 'border-t border-gray-50' : ''}`}>
+                  <span className="text-gray-800 text-[15px]">{task.name}</span>
+                  <span className="text-xs font-medium text-gray-400">{format(parseISO(task.next_due_date), 'MMM d')}</span>
                 </div>
               ))}
             </div>

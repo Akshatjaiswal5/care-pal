@@ -7,15 +7,11 @@ export default function ModuleSection({ module, tasks, logs, onDone, onSkip, onP
   const doneCount = tasks.filter((t) => logsMap[t.id]?.status === 'done').length
 
   return (
-    <div className="mb-6">
-      <div className="flex items-center gap-2 mb-3 px-1">
-        <span className="text-lg">{module.icon}</span>
-        <h2 className="font-semibold text-gray-500 text-xs tracking-widest uppercase">
-          {module.name}
-        </h2>
-        <span className="ml-auto text-xs text-gray-400">
-          {doneCount}/{tasks.length}
-        </span>
+    <div className="mb-5">
+      <div className="flex items-center gap-1.5 mb-2 px-1">
+        <span className="text-sm">{module.icon}</span>
+        <h3 className="text-xs font-semibold text-gray-400 tracking-wider uppercase">{module.name}</h3>
+        <span className="ml-auto text-xs text-gray-300">{doneCount}/{tasks.length}</span>
       </div>
       <div className="flex flex-col gap-2">
         {tasks.map((task) => (

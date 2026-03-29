@@ -7,7 +7,9 @@
 }
 
 body {
-  @apply bg-[#f2f2f7] text-[#1c1c1e] font-sans;
+  background-color: #f2f2f7;
+  color: #1c1c1e;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
   min-height: 100dvh;
   overscroll-behavior: none;
 }
@@ -18,11 +20,6 @@ body {
   flex-direction: column;
 }
 
-/* iOS safe area padding */
-.safe-top { padding-top: env(safe-area-inset-top); }
-.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
-
-/* Scrollable content above bottom nav */
 .page-content {
   flex: 1;
   overflow-y: auto;
