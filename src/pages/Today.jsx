@@ -109,7 +109,6 @@ export default function Today() {
       <div className="px-4 pt-4">
         {totalDue === 0 && (
           <div className="text-center py-16">
-            <p className="text-4xl mb-3">🌿</p>
             <p className="text-[17px] font-medium" style={{ color: '#636366' }}>No tasks for today</p>
             <p className="text-[14px] mt-1" style={{ color: '#c7c7cc' }}>Add some in Manage</p>
           </div>
@@ -117,10 +116,7 @@ export default function Today() {
 
         {morningByModule.length > 0 && (
           <section className="mb-7">
-            <div className="flex items-center gap-2 mb-3">
-              <span>🌅</span>
-              <h2 className="text-[17px] font-semibold" style={{ color: '#000' }}>Morning</h2>
-            </div>
+            <h2 className="text-[17px] font-semibold mb-3" style={{ color: '#000' }}>Morning</h2>
             {morningByModule.map(({ module, tasks }) => (
               <ModuleSection key={module.id} module={module} tasks={tasks} logs={logs} onDone={handleDone} onSkip={handleSkip} onPostpone={handlePostpone} />
             ))}
@@ -129,10 +125,7 @@ export default function Today() {
 
         {nightByModule.length > 0 && (
           <section className="mb-7">
-            <div className="flex items-center gap-2 mb-3">
-              <span>🌙</span>
-              <h2 className="text-[17px] font-semibold" style={{ color: '#000' }}>Night</h2>
-            </div>
+            <h2 className="text-[17px] font-semibold mb-3" style={{ color: '#000' }}>Night</h2>
             {nightByModule.map(({ module, tasks }) => (
               <ModuleSection key={module.id} module={module} tasks={tasks} logs={logs} onDone={handleDone} onSkip={handleSkip} onPostpone={handlePostpone} />
             ))}
@@ -141,10 +134,7 @@ export default function Today() {
 
         {scheduledByModule.length > 0 && (
           <section className="mb-7">
-            <div className="flex items-center gap-2 mb-3">
-              <span>📅</span>
-              <h2 className="text-[17px] font-semibold" style={{ color: '#000' }}>Scheduled</h2>
-            </div>
+            <h2 className="text-[17px] font-semibold mb-3" style={{ color: '#000' }}>Scheduled</h2>
             {scheduledByModule.map(({ module, tasks }) => (
               <ModuleSection key={module.id} module={module} tasks={tasks} logs={logs} onDone={handleDone} onSkip={handleSkip} onPostpone={handlePostpone} />
             ))}

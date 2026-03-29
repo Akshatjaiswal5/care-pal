@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
 import { getModules, createModule, updateModule, deleteModule, getTasks, createTask, updateTask, deleteTask } from '../lib/db'
 
-const MODULE_ICONS = ['🧴','💆','🦷','🛁','💊','🧘','💪','🌿','✨','🫧','🪥','🌙','☀️','💅','🧖']
-const MODULE_COLORS = ['#22c55e','#3b82f6','#ec4899','#f97316','#a855f7','#10b981','#f59e0b','#ef4444']
+const MODULE_COLORS = ['#30D158','#007AFF','#FF2D55','#FF9500','#AF52DE','#00C7BE','#FF6B35','#FF3B30']
 const DEFAULT_MODULES = [
-  { name: 'Skincare', icon: '🧴', color: '#ec4899', sort_order: 0 },
-  { name: 'Haircare', icon: '💆', color: '#a855f7', sort_order: 1 },
-  { name: 'Oral Care', icon: '🦷', color: '#3b82f6', sort_order: 2 },
-  { name: 'Body', icon: '🛁', color: '#10b981', sort_order: 3 },
-  { name: 'Medicines', icon: '💊', color: '#f97316', sort_order: 4 },
-  { name: 'Mind', icon: '🧘', color: '#22c55e', sort_order: 5 },
+  { name: 'Skincare', icon: '', color: '#FF2D55', sort_order: 0 },
+  { name: 'Haircare', icon: '', color: '#AF52DE', sort_order: 1 },
+  { name: 'Oral Care', icon: '', color: '#007AFF', sort_order: 2 },
+  { name: 'Body', icon: '', color: '#00C7BE', sort_order: 3 },
+  { name: 'Medicines', icon: '', color: '#FF9500', sort_order: 4 },
+  { name: 'Mind', icon: '', color: '#30D158', sort_order: 5 },
 ]
 
 export default function Manage() {
@@ -87,8 +86,8 @@ export default function Manage() {
                 {modules.map((mod, i) => (
                   <div key={mod.id} className="flex items-center gap-3 px-4 py-3" style={i > 0 ? { borderTop: '1px solid #f2f2f7' } : {}}>
                     <button onClick={() => setActiveModule(mod)} className="flex items-center gap-3 flex-1 min-w-0">
-                      <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0" style={{ backgroundColor: mod.color + '20' }}>
-                        {mod.icon}
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: mod.color + '25' }}>
+                        <span className="text-[13px] font-bold" style={{ color: mod.color }}>{mod.name[0]}</span>
                       </div>
                       <span className="text-[15px] font-medium truncate" style={{ color: '#000' }}>{mod.name}</span>
                       <span className="text-[13px] ml-auto mr-1 shrink-0" style={{ color: '#c7c7cc' }}>
@@ -127,8 +126,8 @@ export default function Manage() {
           <>
             <BackButton onClick={() => setActiveModule(null)} />
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-11 h-11 rounded-2xl flex items-center justify-center text-2xl" style={{ backgroundColor: activeModule.color + '20' }}>
-                {activeModule.icon}
+              <div className="w-11 h-11 rounded-2xl flex items-center justify-center" style={{ backgroundColor: activeModule.color + '25' }}>
+                <span className="text-[16px] font-bold" style={{ color: activeModule.color }}>{activeModule.name[0]}</span>
               </div>
               <h2 className="text-[22px] font-bold" style={{ color: '#000' }}>{activeModule.name}</h2>
             </div>
@@ -234,7 +233,6 @@ function Input({ type = 'text', value, onChange, placeholder, min }) {
 
 function ModuleForm({ initial, onSave, onCancel }) {
   const [name, setName] = useState(initial?.name || '')
-  const [icon, setIcon] = useState(initial?.icon || MODULE_ICONS[0])
   const [color, setColor] = useState(initial?.color || MODULE_COLORS[0])
 
   return (
@@ -244,17 +242,6 @@ function ModuleForm({ initial, onSave, onCancel }) {
 
       <Field label="Name">
         <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Skincare" />
-      </Field>
-
-      <Field label="Icon">
-        <div className="flex flex-wrap gap-2">
-          {MODULE_ICONS.map((ic) => (
-            <button key={ic} onClick={() => setIcon(ic)}
-              className="w-11 h-11 rounded-xl text-xl flex items-center justify-center transition-all"
-              style={icon === ic ? { backgroundColor: '#E8F8ED', outline: '2px solid #30D158' } : { backgroundColor: '#f2f2f7' }}
-            >{ic}</button>
-          ))}
-        </div>
       </Field>
 
       <Field label="Color">
@@ -268,7 +255,7 @@ function ModuleForm({ initial, onSave, onCancel }) {
         </div>
       </Field>
 
-      <button onClick={() => onSave({ name, icon, color })} disabled={!name.trim()}
+      <button onClick={() => onSave({ name, icon: '', color })} disabled={!name.trim()}
         className="w-full py-3.5 rounded-xl text-[15px] font-semibold mt-2 disabled:opacity-40"
         style={{ backgroundColor: '#30D158', color: '#ffffff' }}
       >

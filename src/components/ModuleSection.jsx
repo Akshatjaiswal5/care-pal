@@ -9,8 +9,8 @@ export default function ModuleSection({ module, tasks, logs, onDone, onSkip, onP
   return (
     <div className="mb-5">
       <div className="flex items-center justify-between mb-2 px-1">
-        <div className="flex items-center gap-1.5">
-          <span className="text-[13px]">{module.icon}</span>
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: module.color }} />
           <span className="section-label">{module.name}</span>
         </div>
         <span className="text-[12px] font-medium" style={{ color: '#c7c7cc' }}>{doneCount}/{tasks.length}</span>
